@@ -7,16 +7,16 @@ import React, {useEffect, useState} from "react"
  */
 const MyComponent = () => {
     const [name, setName] = useState("Unknown");
-    const [networkError, setNetworkError] = useState(false);
+    const [error, setError] = useState(false);
     useEffect(() => {
         fetch('http://localhost:8080/api/v1/sw/character')
             .then(res => res.json())
             .then((data) => {
-                setName(data.name)
-                setNetworkError(false)
+                setName(data.name);
+                setError(false);
             })
             .catch((error) => {
-                setNetworkError(true)
+                setError(true);
             });
     }, []);
 
@@ -24,8 +24,8 @@ const MyComponent = () => {
         <div>
             Name: {name}
         </div>
-        <div className={!networkError ? 'hidden' : ''}>
-            Status: Can't connect to the server!
+        <div className={!error ? 'hidden' : ''}>
+            Status: Can't fetch character information!
         </div>
     </div>
 };
