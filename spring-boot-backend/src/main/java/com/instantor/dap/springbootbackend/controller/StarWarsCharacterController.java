@@ -12,6 +12,6 @@ public class StarWarsCharacterController {
      */
     @GetMapping("/character")
     public String getCharacter() {
-        return "{}";
+        return "{\"name\": \"Luke\"}";
     }
 }

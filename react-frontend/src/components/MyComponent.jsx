@@ -8,8 +8,11 @@ import React, {useEffect, useState} from "react"
 const MyComponent = () => {
     const [name, setName] = useState("Luke");
     useEffect(() => {
-        //Call spring back-end
-        setName("Luke")
+        fetch('http://localhost:8080/api/v1/sw/character')
+            .then(res => res.json())
+            .then((data) => {
+                setName(data.name)
+            })
     }, []);
 
     return <div>
