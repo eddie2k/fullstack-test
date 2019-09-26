@@ -1,6 +1,7 @@
 package com.instantor.dap.springbootbackend.controller;
 
 import com.instantor.dap.springbootbackend.integration.StarWarsIntegration;
+import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +22,7 @@ public class StarWarsCharacterController {
      * @return character from Star Wars
      */
     @GetMapping("/character")
-    public String getCharacter() {
-        starWarsIntegration.getStarWarsCharacter();
-        return "{\"name\": \"Luke\"}";
+    public StarsWarsCharacter getCharacter() {
+        return starWarsIntegration.getStarWarsCharacter();
     }
 }
