@@ -12,8 +12,12 @@ const MyComponent = () => {
         fetch('http://localhost:8080/api/v1/sw/character')
             .then(res => res.json())
             .then((data) => {
-                setName(data.name);
-                setError(false);
+                if (data.integrationOk) {
+                    setName(data.starWarsCharacter.name);
+                    setError(false);
+                } else {
+                    setError(true);
+                }
             })
             .catch((error) => {
                 setError(true);
