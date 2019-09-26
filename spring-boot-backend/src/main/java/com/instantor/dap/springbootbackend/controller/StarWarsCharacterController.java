@@ -1,5 +1,7 @@
 package com.instantor.dap.springbootbackend.controller;
 
+import com.instantor.dap.springbootbackend.controller.response.StarsWarsCharacterResponse;
+import com.instantor.dap.springbootbackend.controller.response.StarsWarsCharacterResponseBuilder;
 import com.instantor.dap.springbootbackend.integration.StarWarsIntegration;
 import com.instantor.dap.springbootbackend.integration.exception.IntegrationFailureException;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
@@ -26,9 +28,14 @@ public class StarWarsCharacterController {
     public StarsWarsCharacterResponse getCharacter() {
         try {
             StarsWarsCharacter responseFromIntegration = starWarsIntegration.getStarWarsCharacter();
-            return new StarsWarsCharacterResponse(true, responseFromIntegration);
+            return new StarsWarsCharacterResponseBuilder()
+                    .setIntegrationStatus(true)
+                    .setStarsWarsCharacter(responseFromIntegration)
+                    .build();
         } catch (IntegrationFailureException e) {
-            return new StarsWarsCharacterResponse(false, null);
+            return new StarsWarsCharacterResponseBuilder()
+                    .setIntegrationStatus(false)
+                    .build();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.instantor.dap.springbootbackend.controller;
 
+import com.instantor.dap.springbootbackend.controller.response.StarsWarsCharacterResponse;
 import com.instantor.dap.springbootbackend.integration.StarWarsIntegration;
 import com.instantor.dap.springbootbackend.integration.exception.IntegrationFailureException;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;

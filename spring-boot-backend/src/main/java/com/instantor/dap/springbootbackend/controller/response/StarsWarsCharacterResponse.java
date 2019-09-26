@@ -1,4 +1,4 @@
-package com.instantor.dap.springbootbackend.controller;
+package com.instantor.dap.springbootbackend.controller.response;
 
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 
@@ -11,7 +11,7 @@ public final class StarsWarsCharacterResponse {
     private final boolean integrationStatus;
     private final StarsWarsCharacter starsWarsCharacter;
 
-    public StarsWarsCharacterResponse(boolean integrationStatus, StarsWarsCharacter starsWarsCharacter) {
+    StarsWarsCharacterResponse(boolean integrationStatus, StarsWarsCharacter starsWarsCharacter) {
         this.integrationStatus = integrationStatus;
         this.starsWarsCharacter = starsWarsCharacter;
     }
