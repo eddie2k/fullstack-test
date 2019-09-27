@@ -1,4 +1,3 @@
-
 package com.instantor.dap.springbootbackend.integration.thirdparty.model;
 
 import com.fasterxml.jackson.annotation.*;
