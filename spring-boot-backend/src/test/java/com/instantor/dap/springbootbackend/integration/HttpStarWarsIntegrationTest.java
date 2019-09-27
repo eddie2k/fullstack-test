@@ -1,27 +1,59 @@
 package com.instantor.dap.springbootbackend.integration;
 
+import com.instantor.dap.springbootbackend.integration.thirdparty.StarWarsThirdParty;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
+import com.instantor.dap.springbootbackend.properties.StarWarsApiProperties;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static com.instantor.dap.springbootbackend.model.StarsWarsCharacterMother.LUKE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HttpStarWarsIntegrationTest {
 
-    @InjectMocks
+    private static final String ANY = "ANY";
+    private static final int ANY_NUMBER = 5;
+    private static final int ANOTHER_NUMBER = 5;
+
     private HttpStarWarsIntegration sut;
 
+    @Mock
+    private StarWarsThirdParty starWarsThirdParty;
+
+    @Mock
+    private RandomGenerator randomGenerator;
+
+    @Captor
+    private ArgumentCaptor<Integer> integerCaptor;
+
+    @Before
+    public void setUp() {
+        StarWarsApiProperties starWarsApiProperties;
+        starWarsApiProperties = new StarWarsApiProperties();
+        starWarsApiProperties.setEndpoint(ANY);
+        starWarsApiProperties.setCharacterspath(ANY);
+
+        sut = new HttpStarWarsIntegration(starWarsThirdParty, starWarsApiProperties, randomGenerator);
+    }
+
     @Test
-    public void shouldReturnLuke_whenCharacterIsRequested() {
+    public void shouldRetrieveCharacterNumberFromRandomGeneratorWithinLimits_whenCharacterIsRequested() {
+        //given
+        doReturn(ANY_NUMBER).when(starWarsThirdParty).getNumberOfAvailableCharacters();
+        doReturn(ANOTHER_NUMBER).when(randomGenerator).getValidCharacterNumber(ANY_NUMBER);
+
         //when
         StarsWarsCharacter c = sut.getStarWarsCharacter();
 
         //then
-        assertThat(c).isEqualTo(LUKE);
+        verify(starWarsThirdParty).getStarWarsCharacter(integerCaptor.capture());
+        assertThat(integerCaptor.getValue()).isEqualTo(ANOTHER_NUMBER);
     }
-
 }
