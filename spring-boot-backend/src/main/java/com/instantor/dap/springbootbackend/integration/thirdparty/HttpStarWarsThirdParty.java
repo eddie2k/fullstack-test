@@ -15,6 +15,8 @@ import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.function.Function;
 
+import static org.springframework.http.HttpMethod.GET;
+
 @Component
 public class HttpStarWarsThirdParty implements StarWarsThirdParty {
 
@@ -37,23 +39,30 @@ public class HttpStarWarsThirdParty implements StarWarsThirdParty {
 
     @Override
     public int getNumberOfAvailableCharacters() throws StarWarsThirdPartyCommunicationException {
-        Function<RestTemplate, ResponseEntity<People>> call = restTemplate -> restTemplate.exchange(apiEntryEndpoint, HttpMethod.GET, HTTP_ENTITY, People.class);
-        Function<ResponseEntity<People>, Integer> extractor = response -> response.getBody().getCount();
-        //TODO handle NPE
-        return fetchAndExtractor(call, extractor);
+        Function<RestTemplate, ResponseEntity<People>> call = restTemplate -> restTemplate.exchange(apiEntryEndpoint, GET, HTTP_ENTITY, People.class);
+        Function<ResponseEntity<People>, Integer> extractor = response -> {
+            if (response == null || response.getBody() == null || response.getBody().getCount() == null) {
+                throw new StarWarsThirdPartyCommunicationException("Error: can't fetch the number of characters");
+            }
+            return response.getBody().getCount();
+        };
+        return fetchAndExtract(call, extractor);
     }
 
     @Override
     public StarsWarsCharacter getStarWarsCharacter(Integer i) {
-        //TODO handle index out of bounds
-        Function<RestTemplate, ResponseEntity<Result>> call = restTemplate -> restTemplate.exchange(apiEntryEndpoint + "/" + i, HttpMethod.GET, HTTP_ENTITY, Result.class);
-        Function<ResponseEntity<Result>, String> extractor = response -> response.getBody().getName();
-        String name = fetchAndExtractor(call, extractor);
-        //TODO handle NPE
+        Function<RestTemplate, ResponseEntity<Result>> call = restTemplate -> restTemplate.exchange(apiEntryEndpoint + "/" + i, GET, HTTP_ENTITY, Result.class);
+        Function<ResponseEntity<Result>, String> extractor = response -> {
+            if (response == null || response.getBody() == null || response.getBody().getName() == null) {
+                throw new StarWarsThirdPartyCommunicationException("Error: returned character has no name");
+            }
+            return response.getBody().getName();
+        };
+        String name = fetchAndExtract(call, extractor);
         return new StarsWarsCharacterImpl(name);
     }
 
-    private static <P, Q> Q fetchAndExtractor(Function<RestTemplate, ResponseEntity<P>> call, Function<ResponseEntity<P>, Q> extractor) {
+    private static <P, Q> Q fetchAndExtract(Function<RestTemplate, ResponseEntity<P>> call, Function<ResponseEntity<P>, Q> extractor) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<P> response = call.apply(restTemplate);
