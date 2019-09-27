@@ -3,7 +3,7 @@ package com.instantor.dap.springbootbackend.controller;
 import com.instantor.dap.springbootbackend.controller.response.StarsWarsCharacterResponse;
 import com.instantor.dap.springbootbackend.controller.response.StarsWarsCharacterResponseBuilder;
 import com.instantor.dap.springbootbackend.integration.StarWarsIntegration;
-import com.instantor.dap.springbootbackend.integration.exception.IntegrationFailureException;
+import com.instantor.dap.springbootbackend.integration.exception.StarWarsIntegrationException;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +32,7 @@ public class StarWarsCharacterController {
                     .setIntegrationStatus(true)
                     .setStarsWarsCharacter(responseFromIntegration)
                     .build();
-        } catch (IntegrationFailureException e) {
+        } catch (StarWarsIntegrationException e) {
             return new StarsWarsCharacterResponseBuilder()
                     .setIntegrationStatus(false)
                     .build();

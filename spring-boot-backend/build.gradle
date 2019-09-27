@@ -22,3 +22,16 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     dependencies { testImplementation 'org.mockito:mockito-core:2.7.22' }
 }
+
+test {
+    useJUnit {
+        excludeCategories 'com.instantor.dap.springbootbackend.testcategory.SystemIntegrationTest'
+    }
+}
+
+task sysetmIntegrationTest(type: Test, group: 'verification', description: """Execute the System Integration Test.
+\tIt requires internet connection and depends on a third party implementation and availability""") {
+    useJUnit {
+        includeCategories 'com.instantor.dap.springbootbackend.testcategory.SystemIntegrationTest'
+    }
+}

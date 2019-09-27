@@ -2,7 +2,7 @@ package com.instantor.dap.springbootbackend.controller;
 
 import com.instantor.dap.springbootbackend.controller.response.StarsWarsCharacterResponse;
 import com.instantor.dap.springbootbackend.integration.StarWarsIntegration;
-import com.instantor.dap.springbootbackend.integration.exception.IntegrationFailureException;
+import com.instantor.dap.springbootbackend.integration.exception.StarWarsIntegrationException;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacterMother;
 import org.junit.Test;
@@ -19,6 +19,7 @@ import static org.mockito.Mockito.doThrow;
 public class StarWarsCharacterControllerTest {
 
     private static final StarsWarsCharacter ANY = StarsWarsCharacterMother.LUKE;
+    private static final String ANY_STRING = "ANY";
 
     @InjectMocks
     private StarWarsCharacterController sut;
@@ -53,7 +54,7 @@ public class StarWarsCharacterControllerTest {
     @Test
     public void shouldReturnIntegrationFailed_whenIntegrationFails() {
         //given
-        doThrow(IntegrationFailureException.class).when(starWarsIntegration).getStarWarsCharacter();
+        doThrow(StarWarsIntegrationException.class).when(starWarsIntegration).getStarWarsCharacter();
 
         //when
         StarsWarsCharacterResponse response = sut.getCharacter();
@@ -65,7 +66,7 @@ public class StarWarsCharacterControllerTest {
     @Test
     public void shouldNotReturnCharacter_whenIntegrationFails() {
         //given
-        doThrow(IntegrationFailureException.class).when(starWarsIntegration).getStarWarsCharacter();
+        doThrow(StarWarsIntegrationException.class).when(starWarsIntegration).getStarWarsCharacter();
 
         //when
         StarsWarsCharacterResponse response = sut.getCharacter();
