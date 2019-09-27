@@ -1,6 +1,8 @@
 package com.instantor.dap.springbootbackend.integration;
 
+import com.instantor.dap.springbootbackend.integration.exception.StarWarsIntegrationException;
 import com.instantor.dap.springbootbackend.integration.thirdparty.StarWarsThirdParty;
+import com.instantor.dap.springbootbackend.integration.thirdparty.exception.StarWarsThirdPartyCommunicationException;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HttpStarWarsIntegrationTest {
@@ -58,6 +60,15 @@ public class HttpStarWarsIntegrationTest {
         //then
         verify(starWarsThirdParty).getStarWarsCharacter(integerCaptor.capture());
         assertThat(integerCaptor.getValue()).isEqualTo(max);
+    }
+
+    @Test
+    public void shouldThrowStarWarsIntegrationException_whenCharacterIsRequested_andThrowsStarWarsThirdPartyCommunicationException() {
+        //given
+        doThrow(StarWarsThirdPartyCommunicationException.class).when(starWarsThirdParty).getNumberOfAvailableCharacters();
+
+        //then/when
+        assertThatExceptionOfType(StarWarsIntegrationException.class).isThrownBy(() -> sut.getStarWarsCharacter());
     }
 
 }

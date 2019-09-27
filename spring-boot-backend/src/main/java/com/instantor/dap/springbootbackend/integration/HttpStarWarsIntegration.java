@@ -1,7 +1,8 @@
 package com.instantor.dap.springbootbackend.integration;
 
+import com.instantor.dap.springbootbackend.integration.exception.StarWarsIntegrationException;
 import com.instantor.dap.springbootbackend.integration.thirdparty.StarWarsThirdParty;
-import com.instantor.dap.springbootbackend.integration.thirdparty.exception.HttpStarWarsThirdPartyException;
+import com.instantor.dap.springbootbackend.integration.thirdparty.exception.StarWarsThirdPartyCommunicationException;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,8 +25,8 @@ public class HttpStarWarsIntegration implements StarWarsIntegration {
             int max = starWarsThirdParty.getNumberOfAvailableCharacters();
             int i = randomGenerator.getInt(max);
             return starWarsThirdParty.getStarWarsCharacter(i);
-        } catch (HttpStarWarsThirdPartyException e) {
-            return null;//TODO
+        } catch (StarWarsThirdPartyCommunicationException e) {
+            throw new StarWarsIntegrationException(e);
         }
     }
 }

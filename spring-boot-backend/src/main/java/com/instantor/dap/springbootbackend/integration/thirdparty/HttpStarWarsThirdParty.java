@@ -1,6 +1,6 @@
 package com.instantor.dap.springbootbackend.integration.thirdparty;
 
-import com.instantor.dap.springbootbackend.integration.thirdparty.exception.HttpStarWarsThirdPartyException;
+import com.instantor.dap.springbootbackend.integration.thirdparty.exception.StarWarsThirdPartyCommunicationException;
 import com.instantor.dap.springbootbackend.integration.thirdparty.model.People;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 import com.instantor.dap.springbootbackend.model.StarsWarsCharacterImpl;
@@ -32,7 +32,7 @@ public class HttpStarWarsThirdParty implements StarWarsThirdParty {
     }
 
     @Override
-    public int getNumberOfAvailableCharacters() throws HttpStarWarsThirdPartyException {
+    public int getNumberOfAvailableCharacters() throws StarWarsThirdPartyCommunicationException {
         try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
@@ -41,11 +41,11 @@ public class HttpStarWarsThirdParty implements StarWarsThirdParty {
             HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
             ResponseEntity<People> response = restTemplate.exchange(starWarsCharacterApiEndPoint, HttpMethod.GET, entity, People.class);
             if (response.getStatusCode() != HttpStatus.OK) {
-                throw new HttpStarWarsThirdPartyException("Error: third party returned code " + response.getStatusCode());
+                throw new StarWarsThirdPartyCommunicationException("Error: third party returned code " + response.getStatusCode());
             }
             return response.getBody().getCount();
         } catch (RestClientException e) {
-            throw new HttpStarWarsThirdPartyException("Error: unexpected error. Details: \"" + e.getLocalizedMessage()
+            throw new StarWarsThirdPartyCommunicationException("Error: unexpected error. Details: \"" + e.getLocalizedMessage()
                     + "\"");
         }
     }
