@@ -9,5 +9,5 @@ import com.instantor.dap.springbootbackend.model.StarsWarsCharacter;
 public interface StarWarsThirdParty {
     int getNumberOfAvailableCharacters() throws StarWarsThirdPartyCommunicationException;
 
-    StarsWarsCharacter getStarWarsCharacter(Integer i);
+    StarsWarsCharacter getStarWarsCharacter(int i) throws StarWarsThirdPartyCommunicationException;
 }

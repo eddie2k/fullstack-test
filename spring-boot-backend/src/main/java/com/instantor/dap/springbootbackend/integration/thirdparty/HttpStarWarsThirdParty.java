@@ -50,7 +50,7 @@ public class HttpStarWarsThirdParty implements StarWarsThirdParty {
     }
 
     @Override
-    public StarsWarsCharacter getStarWarsCharacter(Integer i) {
+    public StarsWarsCharacter getStarWarsCharacter(int i) {
         Function<RestTemplate, ResponseEntity<Result>> call = restTemplate -> restTemplate.exchange(apiEntryEndpoint + "/" + i, GET, HTTP_ENTITY, Result.class);
         Function<ResponseEntity<Result>, String> extractor = response -> {
             if (response == null || response.getBody() == null || response.getBody().getName() == null) {
