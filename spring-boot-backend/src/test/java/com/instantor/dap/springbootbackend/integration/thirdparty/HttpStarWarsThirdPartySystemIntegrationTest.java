@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.ConfigFileApplicationContextInitial
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.instantor.dap.springbootbackend.model.StarsWarsCharacterMother.LUKE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(SystemIntegrationTest.class)
@@ -44,11 +43,12 @@ public class HttpStarWarsThirdPartySystemIntegrationTest {
     }
 
     @Test
-    public void shouldReturnLuke_whenCharacterIsRequested() {
+    public void shouldReturnCharacterWithName_whenCharacterIsRequested() {
         //when
-        StarsWarsCharacter c = sut.getStarWarsCharacter(ANY);
+        StarsWarsCharacter character = sut.getStarWarsCharacter(ANY);
 
         //then
-        assertThat(c).isEqualTo(LUKE);//TODO hardcoded for now
+        assertThat(character.getName()).isNotNull();
+        assertThat(character.getName()).isNotBlank();
     }
 }
