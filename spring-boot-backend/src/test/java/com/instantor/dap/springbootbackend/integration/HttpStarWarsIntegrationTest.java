@@ -44,16 +44,32 @@ public class HttpStarWarsIntegrationTest {
     }
 
     @Test
-    public void shouldRetrieveCharacterNumberFromRandomGeneratorWithinLimits_whenCharacterIsRequested() {
+    public void shouldUseIndexWithinLimits_lowerBound_whenCharacterIsRequested() {
         //given
         doReturn(ANY_NUMBER).when(starWarsThirdParty).getNumberOfAvailableCharacters();
-        doReturn(ANOTHER_NUMBER).when(randomGenerator).getValidCharacterNumber(ANY_NUMBER);
+        doReturn(1).when(randomGenerator).getInt(ANY_NUMBER);
 
         //when
         StarsWarsCharacter c = sut.getStarWarsCharacter();
 
         //then
         verify(starWarsThirdParty).getStarWarsCharacter(integerCaptor.capture());
-        assertThat(integerCaptor.getValue()).isEqualTo(ANOTHER_NUMBER);
+        assertThat(integerCaptor.getValue()).isEqualTo(1);
     }
+
+    @Test
+    public void shouldUseIndexWithinLimits_upperBound_whenCharacterIsRequested() {
+        //given
+        int max = ANY_NUMBER;
+        doReturn(max).when(starWarsThirdParty).getNumberOfAvailableCharacters();
+        doReturn(max).when(randomGenerator).getInt(max);
+
+        //when
+        StarsWarsCharacter c = sut.getStarWarsCharacter();
+
+        //then
+        verify(starWarsThirdParty).getStarWarsCharacter(integerCaptor.capture());
+        assertThat(integerCaptor.getValue()).isEqualTo(max);
+    }
+
 }

@@ -37,7 +37,7 @@ public class HttpStarWarsIntegration implements StarWarsIntegration {
     @Override
     public StarsWarsCharacter getStarWarsCharacter() {
         int max = starWarsThirdParty.getNumberOfAvailableCharacters();
-        int i = randomGenerator.getValidCharacterNumber(max);
+        int i = randomGenerator.getInt(max);
         return starWarsThirdParty.getStarWarsCharacter(i);
     }
 }
@@ -52,7 +52,7 @@ class RandomGenerator {
      * @param max maximum value (inclusive)
      * @return
      */
-    public int getValidCharacterNumber(int max) {
+    public int getInt(int max) {
         return random.nextInt(max) + 1;
     }
 }
