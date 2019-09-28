@@ -1,5 +1,20 @@
 Instantors Fullstack exercise
 =========================
+
+Implementation notes:
+----
+1. Assuming docker compose is installed in your system, simply run from the root directory
+```
+docker-compose up
+```
+and wait for the application to load. You can find the application at [localhost:3000](http://localhost:3000).
+2. There are available test to run against the actual integration. It can be used to verify that the service is online and the API is still compatible with the 
+implementation. They can be executed from the *spring-boot-backend* directory by running
+```
+gradle systemIntegrationTest
+```
+Original notes:
+=========================
 Welcome to Instantors fullstack exercise! 
 This exercise is done to give you an opportunity to 
 show case your coding style and how you think about problem solving. 
