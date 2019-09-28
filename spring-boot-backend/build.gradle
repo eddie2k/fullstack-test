@@ -29,7 +29,7 @@ test {
     }
 }
 
-task sysetmIntegrationTest(type: Test, group: 'verification', description: """Execute the System Integration Test.
+task systemIntegrationTest(type: Test, group: 'verification', description: """Execute the System Integration Test.
 \tIt requires internet connection and depends on a third party implementation and availability""") {
     useJUnit {
         includeCategories 'com.instantor.dap.springbootbackend.testcategory.SystemIntegrationTest'
